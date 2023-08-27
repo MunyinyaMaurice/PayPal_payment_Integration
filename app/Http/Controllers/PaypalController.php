@@ -8,7 +8,7 @@ class PaypalController extends Controller
 {
  public function payment(Request $request){
 
-
+dd($request->price);
  }
 
 }

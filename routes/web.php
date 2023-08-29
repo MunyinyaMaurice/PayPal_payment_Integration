@@ -16,7 +16,8 @@ use App\Http\Controllers\flutterController;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+   // return view('welcome');
+    return view("page.payment");
 });
 // paypal
 Route::post('paypal/payment',[PaypalController::class,'payment'])->name('paypal');

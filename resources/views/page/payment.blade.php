@@ -61,8 +61,9 @@
     
     <script>
     $(function (){
-        $("makepaymentForm").submit(function (e){
+        $("#makepaymentForm").submit(function (e){
             e.preventDefault();
+            // console.log("well!");
         });
     });
       function makePayment() {

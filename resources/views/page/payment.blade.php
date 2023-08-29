@@ -15,6 +15,7 @@
     <div class="container">
     <div class="header px-5 mt-2 text-white text-center bg-primary py-5 ">
         <h1>Pay for product</h1>
+        
     </div>
     <div class="main">
         <form id="makepaymentForm">
@@ -57,6 +58,7 @@
 
     <!-- Option 1: Bootstrap Bundle with Popper -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+    
     <script src="https://checkout.flutterwave.com/v3.js"></script>
     
     <script>
@@ -64,27 +66,39 @@
         $("#makepaymentForm").submit(function (e){
             e.preventDefault();
             // console.log("well!");
+            var name = $("#name").val();
+            var email = $("#email").val();
+            var number = $("#number").val();
+            var amount = $("#amount").val();
+            // make our payment
+            makePayment(amount,email,number,name);
         });
     });
-      function makePayment() {
+      function makePayment(amount,email,phone_number,name) {
         FlutterwaveCheckout({
           public_key: "FLWPUBK_TEST-SANDBOXDEMOKEY-X",
-          tx_ref: "titanic-48981487343MDI0NzMx",
-          amount: 54600,
+          tx_ref: "RX1_{{substr(rand(0,time()),0,7) }}",
+          amount,
           currency: "USD",
-          payment_options: "card, banktransfer, ussd",
+          country: "US",
+          payment_options: " ",
           
           customer: {
-            email: "rose@unsinkableship.com",
-            phone_number: "08102909304",
-            name: "Rose DeWitt Bukater",
+            email,
+            phone_number,
+            name,
           },
+         
           customizations: {
             title: "The Titanic Store",
             description: "Payment for an awesome cruise",
             logo: "https://www.logolynx.com/images/logolynx/22/2239ca38f5505fbfce7e55bbc0604386.jpeg",
           },
+          callback:function(data){
+            console.log(data);
+          },
         });
+        
       }
     </script>
     

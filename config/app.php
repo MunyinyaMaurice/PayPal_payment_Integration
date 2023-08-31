@@ -181,6 +181,7 @@ return [
         Illuminate\Translation\TranslationServiceProvider::class,
         Illuminate\Validation\ValidationServiceProvider::class,
         Illuminate\View\ViewServiceProvider::class,
+        KingFlamez\Rave\RaveServiceProvider::class,
 
         /*
          * Package Service Providers...
@@ -211,5 +212,6 @@ return [
     'aliases' => Facade::defaultAliases()->merge([
         // 'ExampleClass' => App\Example\ExampleClass::class,
     ])->toArray(),
+    'Rave' => KingFlamez\Rave\Facades\Rave::class,
 
 ];

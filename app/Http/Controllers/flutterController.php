@@ -95,4 +95,4 @@ class flutterController extends Controller
     }
 }
 
-}
+

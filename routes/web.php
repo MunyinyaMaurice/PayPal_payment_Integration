@@ -27,11 +27,11 @@ Route::get('paypal/success',[PaypalController::class,'success'])->name('paypal_s
 Route::get('paypal/cancel',[PaypalController::class,'cancel'])->name('paypal_cancel'); 
 
 // FlutterWave
-Route::any('payment-page',[flutterController::class,'flutter_payment']);
-Route::any('verify-payment',[flutterController::class,'verify']);
+/*Route::any('payment-page',[flutterController::class,'flutter_payment']);
+Route::any('verify-payment',[flutterController::class,'verify']);*/
 
 // FlutterWave2 
 // The route that the button calls to initialize payment
-Route::post('/pay', [FlutterwaveController::class, 'initialize'])->name('pay');
+Route::post('/pay', [flutterController::class, 'initialize'])->name('pay');
 // The callback url after a payment
-Route::get('/rave/callback', [FlutterwaveController::class, 'callback'])->name('callback');
+Route::get('/rave/callback', [flutterController::class, 'callback'])->name('callback');

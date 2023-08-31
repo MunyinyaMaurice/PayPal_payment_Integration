@@ -19,6 +19,7 @@
     </div>
     <div class="main">
         <form id="makepaymentForm">
+            @csrf
 <div class="row">
     <div class="col-6">
         <div class="form-group">
@@ -74,34 +75,46 @@
             makePayment(amount,email,number,name);
         });
     });
-      function makePayment(amount,email,phone_number,name) {
-        FlutterwaveCheckout({
-          public_key: "FLWPUBK_TEST-SANDBOXDEMOKEY-X",
-          tx_ref: "RX1_{{substr(rand(0,time()),0,7) }}",
-          amount,
-          currency: "USD",
-          country: "US",
-          payment_options: " ",
-          
-          customer: {
-            email,
-            phone_number,
-            name,
-          },
-         
-          customizations: {
-            title: "The Titanic Store",
-            description: "Payment for an awesome cruise",
-            logo: "https://www.logolynx.com/images/logolynx/22/2239ca38f5505fbfce7e55bbc0604386.jpeg",
-          },
-          callback:function(data){
-            console.log(data);
-          },
-        });
+    function makePayment(amount, email, number, name) {
+            FlutterwaveCheckout({
+                public_key: "FLWPUBK_TEST-6fdbd1b554472c31fd44a1d77a51431d-X",
+                tx_ref: "RX1_" + Math.floor(Math.random() * 10000000),
+                amount: amount,
+                currency: "USD",
+                country: "US",
+                payment_options: "",
+
+                customer: {
+                    email: email,
+                    number: number,
+                    name: name,
+                    
+                },
+                
+                // callback: function (data) {
+                //     var transaction_id = data.transaction_id;
+                //     var _token = $("input[name='_token']").val();
+                //     $.ajax({
+                //         type: "post",
+                //         url:"{{URL::to('verify-payment')}}"+transaction_id,
+                //         data: {
+                //             transaction_id: transaction_id,
+                //             _token: _token
+                //         },
+                //         success: function (response) {
+                //             console.log(response);
+                //         }
+                //     });
+                // },
+                customizations: {
+                    title: "The Titanic Store",
+                    description: "Payment for an awesome cruise",
+                    logo: "https://www.logolynx.com/images/logolynx/22/2239ca38f5505fbfce7e55bbc0604386.jpeg",
+                },
+            });
+            console.log("done!");  
+        }
         
-      }
     </script>
-    
-   
-  </body>
+</body>
 </html>

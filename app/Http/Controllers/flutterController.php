@@ -28,14 +28,14 @@ class flutterController extends Controller
     {
         //This generates a payment reference
         $reference = Flutterwave::generateReference();
-
+        $order_id = Flutterwave::generateReference('momo');
         // Enter the details of the payment
         $data = [
             'payment_options' => 'card,banktransfer',
-            'amount' => 500,
+            'amount' => 50,
             'email' => request()->email,
             'tx_ref' => $reference,
-            'currency' => "NGN",
+            'currency' => "USD",
             'redirect_url' => route('callback'),
             'customer' => [
                 'email' => request()->email,
@@ -44,22 +44,23 @@ class flutterController extends Controller
             ],
 
             "customizations" => [
-                "title" => 'Movie Ticket',
-                "description" => "20th October"
+                "title" => 'Toyota',
+                "description" => "Red"
             ]
         ];
-
+        //dd($data);
         $payment = Flutterwave::initializePayment($data);
 
 
         if ($payment['status'] !== 'success') {
             // notify something went wrong
-            return;
+            return "something went wrong!";
         }
 
         return redirect($payment['data']['link']);
+        
     }
-
+    
     /**
      * Obtain Rave callback information
      * @return void
@@ -75,13 +76,16 @@ class flutterController extends Controller
         $transactionID = Flutterwave::getTransactionIDFromCallback();
         $data = Flutterwave::verifyTransaction($transactionID);
 
-        dd($data);
+        // dd($data);
+        return "payment went well!"; 
         }
         elseif ($status ==  'cancelled'){
+            return "canceled!";
             //Put desired action/code after transaction has been cancelled here
         }
         else{
             //Put desired action/code after transaction has failed here
+            return "somthing went wrong!";
         }
         // Get the transaction from your DB using the transaction reference (txref)
         // Check if you have previously given value for the transaction. If you have, redirect to your success page else, continue

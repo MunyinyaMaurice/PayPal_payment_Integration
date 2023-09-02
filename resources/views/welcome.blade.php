@@ -20,7 +20,7 @@
     </div>
 
     <div> 
-        <h3>Buy Movie Tickets N500.00</h3>
+        <h3>Buy Movie Tickets 50.00</h3>
     <form method="POST" action="{{ route('pay') }}" id="paymentForm">
         {{ csrf_field() }}
     

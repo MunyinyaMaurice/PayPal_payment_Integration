@@ -35,6 +35,7 @@ class flutterController extends Controller
             'amount' => 50,
             'email' => request()->email,
             'tx_ref' => $reference,
+            'order_id' => $order_id,
             'currency' => "USD",
             'redirect_url' => route('callback'),
             'customer' => [
@@ -49,17 +50,25 @@ class flutterController extends Controller
             ]
         ];
         //dd($data);
+        
         $payment = Flutterwave::initializePayment($data);
-
-
         if ($payment['status'] !== 'success') {
             // notify something went wrong
-            return "something went wrong!";
-        }
+            return "something went wrong during CARD payment!";
+        }else{
 
         return redirect($payment['data']['link']);
-        
+        }
+        $charge = Flutterwave::payments()->momoRW($data);
+    
+    if ($charge['status'] === 'success') {
+        # code...
+        // Redirect to the charge url
+        return redirect($charge['data']['redirect']);
+    }else{
+        return "something went wrong during MOMO transaction!";
     }
+}
     
     /**
      * Obtain Rave callback information

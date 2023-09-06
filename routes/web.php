@@ -1,7 +1,9 @@
 <?php
 
-use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\PaypalController;
+use App\Http\Controllers\flutterController;
+use App\Http\Controllers\ProfileController;
 
 /*
 |--------------------------------------------------------------------------
@@ -29,3 +31,17 @@ Route::middleware('auth')->group(function () {
 });
 
 require __DIR__.'/auth.php';
+/* PayPal */
+Route::post('paypal/payment', [PaypalController::class, 'payment'])->name('paypal');
+Route::get('paypal/success', [PaypalController::class, 'success'])->name('paypal_success');
+Route::get('paypal/cancel', [PaypalController::class, 'cancel'])->name('paypal_cancel');
+
+
+/* FlutterWave */
+
+// The route that the button calls to initialize payment
+ Route::post('/pay', [flutterController::class, 'initialize'])->name('pay');
+//Route::post('/pay/{bookingId}', [flutterController::class, 'initialize'])->name('pay');
+
+// The callback url after a payment
+Route::get('/rave/callback', [flutterController::class, 'callback'])->name('callback');

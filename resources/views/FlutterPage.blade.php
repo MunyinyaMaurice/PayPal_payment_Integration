@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-    <script src="https://checkout.flutterwave.com/v3.js"></script>
+    <script src="https://checkout.flutterwave.com/v3.cjs"></script>
 <form>
   <div>
     Your order is ₦54,600

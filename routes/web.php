@@ -1,9 +1,7 @@
 <?php
 
+use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\FlutterContro;
-use App\Http\Controllers\PaypalController;
-use App\Http\Controllers\flutterController;
 
 /*
 |--------------------------------------------------------------------------
@@ -17,30 +15,17 @@ use App\Http\Controllers\flutterController;
 */
 
 Route::get('/', function () {
-    // return view('FlutterPage');
     return view('welcome');
-   //return view("page.payment");
-    
-       
 });
-// paypal
-Route::post('paypal/payment',[PaypalController::class,'payment'])->name('paypal');
-Route::get('paypal/success',[PaypalController::class,'success'])->name('paypal_success');
-Route::get('paypal/cancel',[PaypalController::class,'cancel'])->name('paypal_cancel'); 
 
-// FlutterWave
-Route::any('payment-page',[FlutterContro::class,'flutter_payment']);
-Route::any('verify-payment',[FlutterContro::class,'verify']);
+Route::get('/dashboard', function () {
+    return view('dashboard');
+})->middleware(['auth', 'verified'])->name('dashboard');
 
-// FlutterWave2 
-// The route that the button calls to initialize payment
-// Route::post('/pay', [flutterController::class, 'initialize'])->name('pay');
-// // The callback url after a payment
-// Route::get('/callback', [flutterController::class, 'callback'])->name('callback');
-// //Route::get('example', [flutterController::class, 'display'])->name('axample');
-// Route::get('/redirect-to-flutterwave/{url}', [flutterController::class, 'redirectToFlutterwave'])->name('redirect-to-flutterwave');
-Route::prefix('Bookly-Africa')->group(function () {
-    Route::post('/pay', [flutterController::class, 'initialize'])->name('pay');
-    Route::get('/callback', [flutterController::class, 'callback'])->name('callback');
-    Route::get('/redirect-to-flutterwave/{url}', [flutterController::class, 'redirectToFlutterwave'])->name('redirect-to-flutterwave');
+Route::middleware('auth')->group(function () {
+    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
+
+require __DIR__.'/auth.php';

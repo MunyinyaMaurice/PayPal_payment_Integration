@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+{{-- <!DOCTYPE html> --}}
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -27,10 +27,12 @@
         <input name="name" placeholder="Name" />
         <input name="email" type="email" placeholder="Your Email" />
         <input name="phone" type="tel" placeholder="Phone number" />
-    
+        
+        
         <input type="submit" value="Buy" />
     </form>
     </div>
     
 </body>
-</html>
+</html> 
+

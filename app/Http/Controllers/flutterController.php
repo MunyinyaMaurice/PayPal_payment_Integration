@@ -9,34 +9,54 @@ class flutterController extends Controller
 {
     // first way
     //=========
-    /*
-    public function flutter_payment(Request $request){
-        return view("page.payment");
-    }
-    public function verify(Request $request){
-        return $request->transation_id;
-    }
-    */
+    
+    // public function flutter_payment(Request $request){
+    //     return view("page.payment");
+    // }
+    // public function verify(Request $request){
+    //     $curl = curl_init();
+    //     curl_setopt_array($curl,array(
+    //     CURLOPT_URL =>"https://api.flutterwave.com/v3/transactions/{$request->transation_id}/verify",
+    //     CURLOPT_RETURNTRANSFER =>true,
+    //     CURLOPT_ENCODING =>"",
+    //     CURLOPT_MAXREDIRS =>10,
+    //     CURLOPT_TIMEOUT =>0,
+    //     CURLOPT_FOLLOWLOCATION =>true,
+    //     CURLOPT_HTTP_VERSION =>CURL_HTTP_VERSION_1_1,
+    //     CURLOPT_CUSTOMREQUEST =>"GET",
+    //     CURLOPT_HTTPHEADER =>array(
+    //         "Content-type: application/json",
+    //         "Authorization: Bearer FLWSECK_TEST-e00662d811819c5edfb5196b5750ec5a-X"
+    //     ),
+    // ));
+
+    // $response = curl_exec($curl);
+
+    // curl_close($curl);
+    // $res = json_decode($response);
+    //     return [$res];
+    // }
+    
 
     // second way
     //=========
-/**
-     * Initialize Rave payment process
-     * @return void
-     */
-    public function initialize()
+
+    public function initialize( )
     {
         //This generates a payment reference
         $reference = Flutterwave::generateReference();
-        $order_id = Flutterwave::generateReference('momo');
+       // $order_id = Flutterwave::generateReference('momo');
         // Enter the details of the payment
         $data = [
+             'public_key'=> "FLWPUBK_TEST-6fdbd1b554472c31fd44a1d77a51431d-X",
             'payment_options' => 'card,banktransfer',
             'amount' => 50,
             'email' => request()->email,
             'tx_ref' => $reference,
-            'order_id' => $order_id,
-            'currency' => "USD",
+            //'order_id' => $order_id,
+            'currency' => "RWF",
+            // "phone_number" => request()->phone,
+            "phone_number" => '+250782752491',
             'redirect_url' => route('callback'),
             'customer' => [
                 'email' => request()->email,
@@ -46,8 +66,10 @@ class flutterController extends Controller
 
             "customizations" => [
                 "title" => 'Toyota',
-                "description" => "Red"
-            ]
+                "description" => "Red",
+                   "logo" =>"https://www.bookly.africa/uploads/0000/18/2022/09/13/bookly-logo-2.png"
+                  
+            ],
         ];
         //dd($data);
         
@@ -56,31 +78,39 @@ class flutterController extends Controller
             // notify something went wrong
             return "something went wrong during CARD payment!";
         }else{
-
-        return redirect($payment['data']['link']);
+        // $links = "https://sandbox-flw-web-v3.herokuapp.com/pay/qyilzstmzzmr";
+         return redirect($payment['data']['link']);
+        // $links = "https://sandbox-flw-web-v3.herokuapp.com/pay/qyilzstmzzmr";
+        // return redirect($links);
+        
+        
+     
         }
-        $charge = Flutterwave::payments()->momoRW($data);
-    
-    if ($charge['status'] === 'success') {
-        # code...
-        // Redirect to the charge url
-        return redirect($charge['data']['redirect']);
-    }else{
-        return "something went wrong during MOMO transaction!";
-    }
+    //     $charge = Flutterwave::payments()->momoRW($data);
+    //    // dd($charge);
+    // if ($charge['status'] === 'success') {
+    //     # code...
+    //     // Redirect to the charge url
+    //     return redirect($charge['data']['redirect']);
+
+    // }else{
+    //     return "something went wrong during MOMO transaction!";
+    // }
 }
-    
-    /**
-     * Obtain Rave callback information
-     * @return void
-     */
+//    
+public function redirectToFlutterwave($url)
+{
+    $decodedUrl = base64_decode($url);
+    return redirect($decodedUrl);
+}
+
     public function callback()
     {
 
         $status = request()->status;
 
         //if payment is successful
-        if ($status ==  'successful') {
+        if ($status ===  'successful') {
 
         $transactionID = Flutterwave::getTransactionIDFromCallback();
         $data = Flutterwave::verifyTransaction($transactionID);

@@ -33,18 +33,19 @@
             <input type="email"name="email" id="email" class="form-control" placeholder="Enter your email" required>
         </div>
     </div>
+    <div class="col-6">
+        <div class="form-group mt-2">
+            <label for="amount">Amount:</label>
+            <input type="number"name="amount" id="amount" class="form-control" placeholder="Enter amount" required>
+        </div>
+    </div>
 <div class="col-6">
         <div class="form-group mt-2">
             <label for="number">Phone number:</label>
             <input type="number"name="number" id="number" class="form-control" placeholder="Enter your phone number" required>
         </div>
     </div>
-<div class="col-6">
-        <div class="form-group mt-2">
-            <label for="amount">Amount:</label>
-            <input type="number"name="amount" id="amount" class="form-control" placeholder="Enter amount" required>
-        </div>
-    </div>
+
 </div>
 
 <div class="form-group mt-2">
@@ -78,36 +79,40 @@
     function makePayment(amount, email, number, name) {
             FlutterwaveCheckout({
                 public_key: "FLWPUBK_TEST-6fdbd1b554472c31fd44a1d77a51431d-X",
-                tx_ref: "RX1_" + Math.floor(Math.random() * 10000000),
-                amount: amount,
+                tx_ref: "RX1_{{substr(rand(0,time()),0,7)}}",
+                amount,
                 currency: "USD",
                 country: "US",
                 payment_options: "",
 
                 customer: {
-                    email: email,
-                    number: number,
-                    name: name,
+                    email,
+                    number,
+                    name,
                     
                 },
                 
-                // callback: function (data) {
-                //     var transaction_id = data.transaction_id;
-                //     var _token = $("input[name='_token']").val();
-                //     $.ajax({
-                //         type: "post",
-                //         url:"{{URL::to('verify-payment')}}"+transaction_id,
-                //         data: {
-                //             transaction_id: transaction_id,
-                //             _token: _token
-                //         },
-                //         success: function (response) {
-                //             console.log(response);
-                //         }
-                //     });
-                // },
+                callback: function (data) {
+                    var transaction_id = data.transaction_id;
+                    var _token = $("input[name='_token']").val();
+                  // console.log(transaction_id);
+                    $.ajax({
+                        type: "POST",
+                        url:"{{URL::to('verify-payment')}}",
+                        data: {
+                             transaction_id,
+                             _token
+                        },
+                        success: function (response) {
+                            console.log(response);
+                        }
+                    });
+                },
+                onclose: function(){
+
+                },
                 customizations: {
-                    title: "The Titanic Store",
+                    title: "My Store",
                     description: "Payment for an awesome cruise",
                     logo: "https://www.logolynx.com/images/logolynx/22/2239ca38f5505fbfce7e55bbc0604386.jpeg",
                 },

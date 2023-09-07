@@ -17,6 +17,7 @@
         </div>
         <div class="main">
             <form action="{{route('logging.post')}}" method="POST">
+                @csrf
         <div class="row">
             <div class="col-6 mt-3">
                 <div class="form-group">

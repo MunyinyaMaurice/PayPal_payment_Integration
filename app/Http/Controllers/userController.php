@@ -24,4 +24,12 @@ if(Auth::attempt($credentials)){
 }   
 return redirect(route('logins'))->with('error','Email lor password are not correct!');
 } 
+public function registrationPost(Request $request){
+    $request->validate([
+        'name' =>'required',
+        'email' =>'required',
+        'phone' =>'required|email|unique:userRegister',
+        'password' =>'required'
+    ]);
+   } 
 }

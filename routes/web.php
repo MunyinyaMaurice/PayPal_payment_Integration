@@ -20,9 +20,11 @@ use App\Http\Controllers\userController;
 Route::get('/', function () {
      return view('welcome');
 })->name('home');
+/*User login route */
 Route::get('/logins', [userController::class,'logging'])->name('logins');
 Route::post('/logins', [userController::class,'loggingPost'])->name('logins.post');
 Route::get('/registers',[userController::class,'registration'])->name('registers');
+Route::post('/registers',[userController::class,'registrationPost'])->name('registers.post');
 
 Route::get('/dashboard', function () {
     return view('dashboard');

@@ -18,8 +18,9 @@
             <h2>USER LOGIN</h2>
         </div>
         <div class="main">
-            <form>
-        <div class="row">
+            <form action="{{route('registers.post')}}" method="POST">
+        @csrf
+                <div class="row">
             <div class="col-8 mx-auto mt-3">
                 <div class="form-group">
                    
@@ -35,7 +36,7 @@
             <div class="col-8 mx-auto mt-3">
                 <div class="form-group">
                    
-                    <input type="text" name="phoneNumber" id="phoneNumber" class="form-control radius-10 " required placeholder="Enter your phone number">
+                    <input type="text" name="phone" id="phone" class="form-control radius-10 " required placeholder="Enter your phone number">
                 </div>
             </div>
             <div class="col-8 mx-auto mt-3">

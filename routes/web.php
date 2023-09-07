@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PaypalController;
 use App\Http\Controllers\flutterController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\userController;
 
 /*
 |--------------------------------------------------------------------------
@@ -17,8 +18,11 @@ use App\Http\Controllers\ProfileController;
 */
 
 Route::get('/', function () {
-    return view('welcome');
-});
+     return view('welcome');
+})->name('home');
+Route::get('/logins', [userController::class,'logging'])->name('logins');
+Route::post('/logins', [userController::class,'loggingPost'])->name('logins.post');
+Route::get('/registers',[userController::class,'registration'])->name('registers');
 
 Route::get('/dashboard', function () {
     return view('dashboard');

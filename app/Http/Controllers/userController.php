@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 
 class userController extends Controller
 {
@@ -27,9 +29,15 @@ return redirect(route('logins'))->with('error','Email lor password are not corre
 public function registrationPost(Request $request){
     $request->validate([
         'name' =>'required',
-        'email' =>'required',
-        'phone' =>'required|email|unique:userRegister',
+        'email' =>'required|email|unique:userRegister',
+        'phone' =>'required',
         'password' =>'required'
     ]);
+
+    $data['name'] = $request->name;
+    $data['email'] = $request->email;
+    $data['phone'] = $request->phone;
+    $data['password'] = Hash::make($request->password) ;
+$user= User::created($data);
    } 
 }

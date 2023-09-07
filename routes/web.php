@@ -25,6 +25,7 @@ Route::get('/logins', [userController::class,'logging'])->name('logins');
 Route::post('/logins', [userController::class,'loggingPost'])->name('logins.post');
 Route::get('/registers',[userController::class,'registration'])->name('registers');
 Route::post('/registers',[userController::class,'registrationPost'])->name('registers.post');
+Route::get('/logout', [userController::class,'logout'])->name('logout');
 
 Route::get('/dashboard', function () {
     return view('dashboard');

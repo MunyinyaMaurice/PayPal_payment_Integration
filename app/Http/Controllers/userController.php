@@ -6,6 +6,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Session;
 
 class userController extends Controller
 {
@@ -47,5 +48,6 @@ return redirect(route('home'))->with('success','Logged in well!');
    function logout(){
 Session::flush();
 Auth::logout();
+return redirect(route('logins'));
    }
 }

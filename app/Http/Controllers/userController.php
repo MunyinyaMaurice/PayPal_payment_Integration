@@ -24,7 +24,7 @@ $request->validate([
 if(Auth::attempt($credentials)){
     return redirect()->intended(route('home'))->with('success','Logged in well!');
 }   
-return redirect(route('logins'))->with('error','Email lor password are not correct!');
+return redirect(route('logins'))->with('error','Email or password are not correct!');
 } 
 public function registrationPost(Request $request){
     $request->validate([
@@ -39,5 +39,13 @@ public function registrationPost(Request $request){
     $data['phone'] = $request->phone;
     $data['password'] = Hash::make($request->password) ;
 $user= User::created($data);
+if(!$user){
+    return redirect(route('registers'))->with('error','Try again!');
+}
+return redirect(route('home'))->with('success','Logged in well!');
    } 
+   function logout(){
+Session::flush();
+Auth::logout();
+   }
 }
